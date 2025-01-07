@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Game with Classes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .hand {
+            margin: 20px 0;
+        }
+        .card {
+            display: inline-block;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Card Game with Classes</h1>
+    
+    <div id="hands-container">
+        <!-- The hands will be displayed here -->
+    </div>
+    
+    <div class="result" id="result"></div>
+
+    <!-- Include the JavaScript files -->
+    <script src="js/Card.js"></script>
+    <script src="js/Deck.js"></script>
+    <script src="js/Hand.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

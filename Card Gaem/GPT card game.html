@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Game</title>
+</head>
+<body>
+    <h1>Card Hands</h1>
+    <script>
+        // JavaScript code here
+        const suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
+        const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'];
+
+        let deck = [];
+        suits.forEach(suit => {
+            ranks.forEach(rank => {
+                deck.push({ rank: rank, suit: suit });
+            });
+        });
+
+        function shuffleDeck(deck) {
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]]; 
+            }
+        }
+
+        shuffleDeck(deck);
+
+        let hand1 = deck.slice(0, 5);
+        let hand2 = deck.slice(5, 10);
+        let hand3 = deck.slice(10, 15);
+
+        console.log("Hand 1:", hand1);
+        console.log("Hand 2:", hand2);
+        console.log("Hand 3:", hand3);
+    </script>
+</body>
+</html>

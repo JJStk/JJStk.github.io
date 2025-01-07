@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .hand {
+            margin: 20px 0;
+        }
+        .card {
+            display: inline-block;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Card Game</h1>
+    
+    <div id="hands-container">
+        <!-- The hands will be displayed here -->
+    </div>
+    
+    <div class="result" id="result"></div>
+    
+    <script>
+        // Define the suits and ranks
+        const suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
+        const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'];
+
+        // Create the deck as an array of card objects
+        let deck = [];
+        suits.forEach(suit => {
+            ranks.forEach(rank => {
+                deck.push({ rank: rank, suit: suit });
+            });
+        });
+
+        // Function to shuffle the deck using the Fisher-Yates algorithm
+        function shuffleDeck(deck) {
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]]; 
+            }
+        }
+
+        // Function to get the rank value
+        const rankValue = (rank) => {
+            if (rank === 'Ace') return 14;
+            if (rank === 'King') return 13;
+            if (rank === 'Queen') return 12;
+            if (rank === 'Jack') return 11;
+            return parseInt(rank);
+        };
+
+        // Function to determine the hand type
+        function evaluateHand(hand) {
+            const counts = {};
+            let suitsCount = {};
+            hand.forEach(card => {
+                counts[card.rank] = (counts[card.rank] || 0) + 1;
+                suitsCount[card.suit] = (suitsCount[card.suit] || 0) + 1;
+            });
+
+            // Check for flush
+            const isFlush = Object.values(suitsCount).some(count => count >= 5);
+            
+            // Check for straight
+            const sortedRanks = hand.map(card => rankValue(card.rank)).sort((a, b) => a - b);
+            const isStraight = sortedRanks[4] - sortedRanks[0] === 4 && new Set(sortedRanks).size === 5;
+
+            // Check for pairs, three of a kind, four of a kind
+            const groupedByCount = Object.values(counts);
+            const isFourOfAKind = groupedByCount.includes(4);
+            const isThreeOfAKind = groupedByCount.includes(3);
+            const isTwoPair = groupedByCount.filter(count => count === 2).length === 2;
+            const isPair = groupedByCount.includes(2);
+            
+            if (isFlush && isStraight) return 'Straight Flush';
+            if (isFourOfAKind) return 'Four of a Kind';
+            if (isFlush) return 'Flush';
+            if (isStraight) return 'Straight';
+            if (isThreeOfAKind) return 'Three of a Kind';
+            if (isTwoPair) return 'Two Pair';
+            if (isPair) return 'Pair';
+            return 'High Card';
+        }
+
+        // Function to compare two hands
+        function compareHands(hand1, hand2) {
+            const handRanks = ['High Card', 'Pair', 'Two Pair', 'Three of a Kind', 'Straight', 'Flush', 'Full House', 'Four of a Kind', 'Straight Flush'];
+            
+            const hand1Rank = evaluateHand(hand1);
+            const hand2Rank = evaluateHand(hand2);
+
+            if (handRanks.indexOf(hand1Rank) > handRanks.indexOf(hand2Rank)) {
+                return 'Hand 1 wins';
+            } else if (handRanks.indexOf(hand1Rank) < handRanks.indexOf(hand2Rank)) {
+                return 'Hand 2 wins';
+            } else {
+                return 'It\'s a tie!';
+            }
+        }
+
+        // Shuffle the deck
+        shuffleDeck(deck);
+
+        // Deal 3 hands of 5 cards each
+        let hand1 = deck.slice(0, 5);
+        let hand2 = deck.slice(5, 10);
+        let hand3 = deck.slice(10, 15);
+
+        // Display hands on the web page
+        function displayHands() {
+            const handsContainer = document.getElementById("hands-container");
+            handsContainer.innerHTML = ''; // Clear previous hands
+
+            function renderHand(hand, handNumber) {
+                let handDiv = document.createElement('div');
+                handDiv.classList.add('hand');
+                handDiv.innerHTML = `<h3>Hand ${handNumber}</h3>`;
+
+                hand.forEach(card => {
+                    const cardDiv = document.createElement('div');
+                    cardDiv.classList.add('card');
+                    cardDiv.textContent = `${card.rank} of ${card.suit}`;
+                    handDiv.appendChild(cardDiv);
+                });
+
+                handsContainer.appendChild(handDiv);
+            }
+
+            renderHand(hand1, 1);
+            renderHand(hand2, 2);
+            renderHand(hand3, 3);
+        }
+
+        // Display the result on the web page
+        function displayResult() {
+            const resultDiv = document.getElementById("result");
+            const result1vs2 = compareHands(hand1, hand2);
+            const result1vs3 = compareHands(hand1, hand3);
+            const result2vs3 = compareHands(hand2, hand3);
+
+            resultDiv.innerHTML = `
+                <p>Comparison of Hand 1 vs Hand 2: ${result1vs2}</p>
+                <p>Comparison of Hand 1 vs Hand 3: ${result1vs3}</p>
+                <p>Comparison of Hand 2 vs Hand 3: ${result2vs3}</p>
+            `;
+        }
+
+        // Display hands and results
+        displayHands();
+        displayResult();
+    </script>
+</body>
+</html>
