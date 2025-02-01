@@ -1,0 +1,3 @@
+ This is what I got for now. It will not read DONT_LEAK.txt saying fix it, because of the catch. Also, is there a way to print all of the lines in a file, because the ways I found used List<String> to get all of the strings and then printed the contents of the list. 
+
+I adjusted LOLbot as well, it now works as intended (Thanks go to my Teacher for that, I'm not leaking his name though). The only problem is that it doesn't exactly write it into the file DONT_LEAK.txt, I added the lines to have something for ReadLOL to read.

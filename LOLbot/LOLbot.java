@@ -1,29 +1,55 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.Scanner;
 
-public class Main {
+public class LOLbot {
     
     public static void main(String[] args) {
 
-    Scanner inputScanner = new Scanner(System.in);
+    try (Scanner inputScanner = new Scanner(System.in)) {
+        
+        System.out.println("Your name: ");
+        String input = inputScanner.nextLine();
 
-    String input = inputScanner.nextLine();
+        System.out.println("Your Grade: ");
+        String input2 = inputScanner.nextLine();
 
-    String greetings = "hello";
+        System.out.println("Your School: ");
+        String input3 = inputScanner.nextLine();
 
-    if (input.contains(greetings)) {
 
-        System.out.println(" Greetings fello human");
+        String greetings = ("James");
+        String grade = ("12th grade");
+        String school = ("IHLA");
+        String HowDare = ("Minico High");
 
-    } else {
+        
 
-        System.out.println(" At least say hi first.");
+
+        if (input.contains(greetings) && input2.contains(grade) && input3.contains(school)) {
+
+            System.out.println(" Greetings, James");
+
+        } else {
+
+            System.out.println(" Hello, New User");
+
+        } 
+
+        if (input3.contains(HowDare)) {
+
+            System.out.println("How DARE you!");
+
+        } else {
+
+            System.out.println("Good meeting you.");
+
+        }
+        
 
     }
 
-    // I wanted to add a funny if statement for integers, but it didn't like int in this specific if statement. 
-    // I have these saved as non-project files. I dunno if that is why it won't let me test this, but I can't input commands.
-    // I did ask google how I would take my input and make a funny. That's why I added greetings string to detect hello and the if statement.
-    // If you get it to work, I hope it's as funny as I thought it was.
+    // 
 
 
     }
